@@ -2,6 +2,9 @@
 #include "application.h"
 
 #include <iostream>
+#include <fstream>
+#include <istream>
+#include <sstream>
 #include <string>
 
 #include <glm/glm.hpp>
@@ -28,6 +31,26 @@ void Game::LoadAssets() {
                               "../assets/shaders/solid_color.fs");
   ResourceManager::LoadShader("sprite", "../assets/shaders/sprite.vs",
                               "../assets/shaders/sprite.fs");
+
+  LoadMap();
+}
+
+void Game::LoadMap() {
+  std::ifstream file;
+  file.open("../assets/data/provinces.txt");
+  std::string line;
+  while (std::getline(file, line)) {
+    if (line.empty() || line[0] == '#') {
+      continue;
+    }
+    Province province;
+    std::istringstream ss(line);
+    ss >> province;
+    std::cout << province.id << province.color.red << province.color.green
+              << province.color.blue << province.name << std::endl;
+
+    provinces_[province.id] = province;
+  }
 }
 
 void Game::ProcessInput(float dt) {

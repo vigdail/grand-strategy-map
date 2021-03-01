@@ -10,7 +10,6 @@
 
 namespace fs = std::filesystem;
 
-// @TODO: Refactor shader loading
 class ResourceManager {
  private:
   static std::map<std::string, Shader> shaders_;

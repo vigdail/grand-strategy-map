@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 #include <entt/entt.hpp>
 
@@ -9,7 +10,7 @@
 #include "light/directional_light.h"
 #include "resource_manager.h"
 #include "gui/gui_layer.h"
-#include "quad.h"
+#include "map/province.h"
 
 class Game {
  public:
@@ -34,10 +35,12 @@ class Game {
   Camera camera_;
   DirectionalLight light_;
   std::unique_ptr<GUILayer> gui_;
+  std::unordered_map<int, Province> provinces_;
 
   double mouse_last_x_;
   double mouse_last_y_;
 
  private:
   void RenderScene(glm::vec4 clip_plane);
+  void LoadMap();
 };
