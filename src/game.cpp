@@ -32,6 +32,8 @@ void Game::LoadAssets() {
   ResourceManager::LoadShader("sprite", "../assets/shaders/sprite.vs",
                               "../assets/shaders/sprite.fs");
 
+  ResourceManager::LoadTexture("regions", "../assets/textures/regions.bmp");
+
   LoadMap();
 }
 
@@ -46,11 +48,10 @@ void Game::LoadMap() {
     Province province;
     std::istringstream ss(line);
     ss >> province;
-    std::cout << province.id << province.color.red << province.color.green
-              << province.color.blue << province.name << std::endl;
 
     provinces_[province.id] = province;
   }
+  file.close();
 }
 
 void Game::ProcessInput(float dt) {
