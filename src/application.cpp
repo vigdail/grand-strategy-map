@@ -18,7 +18,8 @@ Application::Application(unsigned int width, unsigned int height)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_RESIZABLE, false);
 
-  window_ = glfwCreateWindow(width, height, "OpenGL Terrain", nullptr, nullptr);
+  window_ = glfwCreateWindow(width, height, "OpenGL Grand Strategy Map",
+                             nullptr, nullptr);
   glfwMakeContextCurrent(window_);
   glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -54,7 +55,7 @@ Application::Application(unsigned int width, unsigned int height)
 #endif
 
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
+  // glEnable(GL_CULL_FACE);
 
   glViewport(0, 0, width, height);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

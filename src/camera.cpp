@@ -37,13 +37,13 @@ void Camera::move(CameraMovement direction, float dt) {
   if (!active_) {
     return;
   }
-  glm::vec3 dir = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
+  // glm::vec3 dir = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
   switch (direction) {
     case CameraMovement::FORWARD:
-      position += dir * speed * dt;
+      position += front * speed * dt;
       break;
     case CameraMovement::BACKWARD:
-      position -= dir * speed * dt;
+      position -= front * speed * dt;
       break;
     case CameraMovement::LEFT:
       position -= right * speed * dt;

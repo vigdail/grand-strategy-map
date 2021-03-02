@@ -4,7 +4,7 @@
 // uniform mat4 view;
 // uniform mat4 projection;
 
-uniform vec3 color;
+uniform vec3 color = vec3(1.0f);
 
 out vec4 fragColor;
 

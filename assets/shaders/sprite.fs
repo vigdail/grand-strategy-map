@@ -8,7 +8,7 @@ in VS_OUT {
 out vec4 glColor;
 
 uniform sampler2D image;
-uniform vec3 color;
+uniform vec3 color = vec3(1.0f);
 
 void main() {
     glColor = vec4(color, 1.0) * texture(image, fs_in.uv);  

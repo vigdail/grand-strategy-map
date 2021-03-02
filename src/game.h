@@ -11,6 +11,8 @@
 #include "resource_manager.h"
 #include "gui/gui_layer.h"
 #include "map/province.h"
+#include "quad.h"
+#include "sphere.h"
 
 class Game {
  public:
@@ -36,6 +38,8 @@ class Game {
   DirectionalLight light_;
   std::unique_ptr<GUILayer> gui_;
   std::unordered_map<int, Province> provinces_;
+  std::shared_ptr<Quad> map_quad_;
+  std::shared_ptr<Sphere> sphere_;
 
   double mouse_last_x_;
   double mouse_last_y_;

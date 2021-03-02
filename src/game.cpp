@@ -21,7 +21,10 @@ Game::Game(uint width, uint height)
       mouse_last_x_(0.0),
       mouse_last_y_(0.0) {
   LoadAssets();
-  camera_.position = glm::vec3(0.0f, 3.0f, 0.0f);
+  camera_.position = glm::vec3(0.0f, 3.0f, 5.0f);
+
+  map_quad_ = std::make_unique<Quad>(10.0f);
+  sphere_ = std::make_unique<Sphere>(16.0f, 16.0f, 20.0f);
 
   gui_ = std::make_unique<GUILayer>(width, height);
 }
@@ -86,7 +89,23 @@ void Game::Render() {
 }
 
 void Game::RenderScene(glm::vec4 clip_plane) {
-  //
+  Texture& regions_texture = ResourceManager::GetTexture("regions");
+  regions_texture.Bind();
+  Shader& sprite_shader = ResourceManager::GetShader("sprite");
+  sprite_shader.Use();
+  sprite_shader.SetMat4("model", glm::mat4(1.0f));
+  sprite_shader.SetMat4("view", camera_.getViewMatrix());
+  sprite_shader.SetMat4("projection", camera_.getProjectionMatrix());
+  map_quad_->Draw();
+
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  Shader& solid_shader = ResourceManager::GetShader("solid");
+  solid_shader.Use();
+  solid_shader.SetMat4("model", glm::mat4(1.0f));
+  solid_shader.SetMat4("view", camera_.getViewMatrix());
+  solid_shader.SetMat4("projection", camera_.getProjectionMatrix());
+  sphere_->Draw();
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void Game::OnKeyEvent(int key, int scancode, int action, int mode) {

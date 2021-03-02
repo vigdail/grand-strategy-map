@@ -3,7 +3,6 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
-// @TODO: Use this as water mesh maybe? (code is the same for now)
 class Quad {
   struct Vertex {
     glm::vec3 position;
@@ -11,7 +10,7 @@ class Quad {
   };
 
  public:
-  Quad() {
+  explicit Quad(float size = 1.0f) noexcept : size_(size) {
     glGenVertexArrays(1, &VAO_);
     glGenBuffers(1, &VBO_);
     glGenBuffers(1, &EBO_);
@@ -28,14 +27,15 @@ class Quad {
   unsigned int VAO_;
   unsigned int VBO_;
   unsigned int EBO_;
+  float size_;
 
  private:
   void BuildVAO() {
     std::array<Vertex, 4> vertices_ = {
-        glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f),
-        glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f),
-        glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f),
+        glm::vec3(-size_ * 0.5f, 0.0f, -size_ * 0.5f), glm::vec2(0.0f, 1.0f),
+        glm::vec3(-size_ * 0.5f, 0.0f, size_ * 0.5f),  glm::vec2(0.0f, 0.0f),
+        glm::vec3(size_ * 0.5f, 0.0f, -size_ * 0.5f),  glm::vec2(1.0f, 1.0f),
+        glm::vec3(size_ * 0.5f, 0.0f, size_ * 0.5f),   glm::vec2(1.0f, 0.0f),
     };
     std::array<unsigned int, 6> indices_ = {0, 1, 2, 2, 1, 3};
 
