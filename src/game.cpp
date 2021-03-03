@@ -62,10 +62,7 @@ void Game::Update(float dt) {
 
 void Game::Render() {
   // Main pass
-  glDisable(GL_CLIP_DISTANCE0);
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glViewport(0, 0, width_, height_);
   RenderScene(glm::vec4(0.0f));
 
   gui_->Render();
@@ -107,13 +104,13 @@ void Game::OnMouseButtonEvent(int button, int action, int mode) {
 }
 
 void Game::OnMousePositionEvent(double x, double y) {
-  float offsetX = x - mouse_last_x_;
-  float offsetY = mouse_last_y_ - y;
+  // float offsetX = x - mouse_last_x_;
+  // float offsetY = mouse_last_y_ - y;
 
-  mouse_last_x_ = x;
-  mouse_last_y_ = y;
+  // mouse_last_x_ = x;
+  // mouse_last_y_ = y;
 
-  camera_.GetCamera().HandleMouseMovement(offsetX, offsetY);
+  // camera_.GetCamera().HandleMouseMovement(offsetX, offsetY);
 
   gui_->OnMousePositionEvent(x, y);
 }

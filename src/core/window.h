@@ -12,6 +12,7 @@ class Window {
   GLFWwindow* GetRawWindow() const { return window_; }
   void SetTitle(std::string title) const;
   void SwapBuffers() const;
+  bool ShouldClose() const { return glfwWindowShouldClose(window_); }
 
  private:
   GLFWwindow* window_;

@@ -40,7 +40,7 @@ Application::~Application() {
 
 void Application::Run() {
   float last_time = 0.0f;
-  while (!glfwWindowShouldClose(window_->GetRawWindow())) {
+  while (!window_->ShouldClose()) {
     float current_time = glfwGetTime();
     float delta_time = current_time - last_time;
     last_time = current_time;
