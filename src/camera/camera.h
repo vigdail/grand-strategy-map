@@ -39,9 +39,9 @@ class Camera {
   glm::mat4 getViewMatrix();
   glm::mat4 getProjectionMatrix() { return projection_; }
 
-  void move(CameraMovement direction, float dt);
-  void handleMouseMovement(float dx, float dy, bool contrainPitch = true);
-  void handleMouseScroll(float dy);
+  void Move(CameraMovement direction, float dt);
+  void HandleMouseMovement(float dx, float dy, bool contrainPitch = true);
+  void HandleMouseScroll(float dy);
   void Disable();
   void Enable();
   void Toggle();
@@ -50,5 +50,5 @@ class Camera {
  private:
   bool active_;
   glm::mat4 projection_;
-  void updateVectors();
+  void UpdateVectors();
 };

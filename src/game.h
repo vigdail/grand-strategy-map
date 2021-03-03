@@ -6,7 +6,7 @@
 
 #include <entt/entt.hpp>
 
-#include "camera.h"
+#include "camera/camera_controller.h"
 #include "light/directional_light.h"
 #include "resource_manager.h"
 #include "gui/gui_layer.h"
@@ -18,12 +18,8 @@ class Game {
  public:
   Game(uint width, uint height);
   void LoadAssets();
-  void ProcessInput(float dt);
   void Update(float dt);
   void Render();
-  void SetKeyPressed(uint key);
-  void SetKeyReleased(uint key);
-  bool IsKeyPressed(uint key);
   void OnKeyEvent(int key, int scancode, int action, int mode);
   void OnMouseButtonEvent(int button, int action, int mode);
   void OnMousePositionEvent(double x, double y);
@@ -33,8 +29,7 @@ class Game {
   entt::registry registry_;
   uint width_;
   uint height_;
-  bool keys_[kKeysCount_];
-  Camera camera_;
+  CameraController camera_;
   DirectionalLight light_;
   std::unique_ptr<GUILayer> gui_;
   std::unordered_map<int, Province> provinces_;

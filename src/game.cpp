@@ -15,13 +15,11 @@ const uint Game::kKeysCount_;
 Game::Game(uint width, uint height)
     : width_(width),
       height_(height),
-      keys_(),
-      camera_(Camera(60.0f, 1.0f * width_ / height_, 0.1f, 1000.0f)),
+      camera_(CameraController(60.0f, 1.0f * width_ / height_, 0.1f, 1000.0f)),
       light_(DirectionalLight(glm::vec3(0.0f), glm::vec3(0.0f))),
       mouse_last_x_(0.0),
       mouse_last_y_(0.0) {
   LoadAssets();
-  camera_.position = glm::vec3(0.0f, 3.0f, 5.0f);
 
   map_quad_ = std::make_unique<Quad>(10.0f);
   sphere_ = std::make_unique<Sphere>(16.0f, 16.0f, 20.0f);
@@ -57,23 +55,8 @@ void Game::LoadMap() {
   file.close();
 }
 
-void Game::ProcessInput(float dt) {
-  if (keys_[GLFW_KEY_W]) {
-    camera_.move(CameraMovement::FORWARD, dt);
-  }
-  if (keys_[GLFW_KEY_S]) {
-    camera_.move(CameraMovement::BACKWARD, dt);
-  }
-  if (keys_[GLFW_KEY_A]) {
-    camera_.move(CameraMovement::LEFT, dt);
-  }
-  if (keys_[GLFW_KEY_D]) {
-    camera_.move(CameraMovement::RIGHT, dt);
-  }
-}
-
 void Game::Update(float dt) {
-  // camera_.position.y =
+  camera_.Update(dt);
   gui_->Update(dt);
 }
 
@@ -89,36 +72,34 @@ void Game::Render() {
 }
 
 void Game::RenderScene(glm::vec4 clip_plane) {
-  Texture& regions_texture = ResourceManager::GetTexture("regions");
+  const Texture& regions_texture = ResourceManager::GetTexture("regions");
   regions_texture.Bind();
   Shader& sprite_shader = ResourceManager::GetShader("sprite");
   sprite_shader.Use();
   sprite_shader.SetMat4("model", glm::mat4(1.0f));
-  sprite_shader.SetMat4("view", camera_.getViewMatrix());
-  sprite_shader.SetMat4("projection", camera_.getProjectionMatrix());
+  sprite_shader.SetMat4("view", camera_.GetCamera().getViewMatrix());
+  sprite_shader.SetMat4("projection",
+                        camera_.GetCamera().getProjectionMatrix());
   map_quad_->Draw();
 
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glCullFace(GL_FRONT);
   Shader& solid_shader = ResourceManager::GetShader("solid");
   solid_shader.Use();
   solid_shader.SetMat4("model", glm::mat4(1.0f));
-  solid_shader.SetMat4("view", camera_.getViewMatrix());
-  solid_shader.SetMat4("projection", camera_.getProjectionMatrix());
+  solid_shader.SetMat4("view", camera_.GetCamera().getViewMatrix());
+  solid_shader.SetMat4("projection", camera_.GetCamera().getProjectionMatrix());
   sphere_->Draw();
+  glCullFace(GL_BACK);
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void Game::OnKeyEvent(int key, int scancode, int action, int mode) {
   gui_->OnKeyEvent(key, scancode, action, mode);
 
-  if (action == GLFW_PRESS) {
-    SetKeyPressed(key);
-  } else if (action == GLFW_RELEASE) {
-    SetKeyReleased(key);
-  }
-  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-    camera_.Toggle();
-  }
+  // if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+  //   camera_.GetCamera().Toggle();
+  // }
 }
 
 void Game::OnMouseButtonEvent(int button, int action, int mode) {
@@ -132,27 +113,7 @@ void Game::OnMousePositionEvent(double x, double y) {
   mouse_last_x_ = x;
   mouse_last_y_ = y;
 
-  camera_.handleMouseMovement(offsetX, offsetY);
+  camera_.GetCamera().HandleMouseMovement(offsetX, offsetY);
 
   gui_->OnMousePositionEvent(x, y);
-}
-
-void Game::SetKeyPressed(uint key) {
-  if (key < kKeysCount_) {
-    keys_[key] = true;
-  }
-}
-
-void Game::SetKeyReleased(uint key) {
-  if (key < kKeysCount_) {
-    keys_[key] = false;
-  }
-}
-
-bool Game::IsKeyPressed(uint key) {
-  if (key < kKeysCount_) {
-    return keys_[key];
-  }
-
-  return false;
 }

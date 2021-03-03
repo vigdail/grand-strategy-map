@@ -17,7 +17,7 @@ Camera::Camera(float fov, float aspect, float near, float far)
       far(far),
       active_(true),
       projection_(glm::perspective(glm::radians(fov), aspect, near, far)) {
-  updateVectors();
+  UpdateVectors();
 }
 
 glm::mat4 Camera::getViewMatrix() {
@@ -30,10 +30,10 @@ void Camera::Toggle() { active_ = !active_; }
 
 void Camera::InvertPitch() {
   pitch = -pitch;
-  updateVectors();
+  UpdateVectors();
 }
 
-void Camera::move(CameraMovement direction, float dt) {
+void Camera::Move(CameraMovement direction, float dt) {
   if (!active_) {
     return;
   }
@@ -55,7 +55,7 @@ void Camera::move(CameraMovement direction, float dt) {
       break;
   }
 }
-void Camera::handleMouseMovement(float dx, float dy, bool contrainPitch) {
+void Camera::HandleMouseMovement(float dx, float dy, bool contrainPitch) {
   if (!active_) {
     return;
   }
@@ -75,10 +75,10 @@ void Camera::handleMouseMovement(float dx, float dy, bool contrainPitch) {
     }
   }
 
-  updateVectors();
+  UpdateVectors();
 }
 
-void Camera::updateVectors() {
+void Camera::UpdateVectors() {
   glm::vec3 _front;
   _front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
   _front.y = sin(glm::radians(pitch));

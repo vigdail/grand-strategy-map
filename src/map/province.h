@@ -4,13 +4,13 @@
 #include <sstream>
 
 struct Color {
-  int red;
-  int green;
-  int blue;
+  int red = 0;
+  int green = 0;
+  int blue = 0;
 };
 
 struct Province {
-  int id;
+  int id = -1;
   Color color;
   std::string name;
 };
