@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project (GlobalStategyMap)
+project (GrandStrategyMap)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
 
