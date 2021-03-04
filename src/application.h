@@ -19,8 +19,6 @@ class Application {
   unsigned int width_;
   unsigned int height_;
 
-  // static void FramebufferSizeCallback(GLFWwindow *window, int width,
-  //                                     int height);
   // static void MouseButtonCallback(GLFWwindow *window, int button, int action,
   //                                 int mode);
   // static void MouseCallback(GLFWwindow *window, double x, double y);
